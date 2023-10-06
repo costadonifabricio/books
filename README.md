@@ -12,22 +12,16 @@ Requisitos:
 
 ### Instalación
 
-    Clona el repositorio:
-
-    bash
+Clona el repositorio:
 
 git clone https://github.com/costadonifabricio/books.git
 
 ### Instala las dependencias:
 
-bash
-
 cd gestion-de-libros
 npm install
 
 ### Inicia la aplicación:
-
-bash
 
     npm start
 
