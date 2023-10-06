@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const booksSchema = new mongoose.Schema({
     title: String,
     gender: String,
-    year_publication: Date,
+    year_publication: String,
     author: {
         type: mongoose.Types.ObjectId,
         ref: 'Author'
@@ -15,7 +15,7 @@ export const BooksModel = mongoose.model('Books', booksSchema)
 // Servicios
 export const getBooks = async () => {
     try {
-        const books = await BooksModel.find()
+        const books = await BooksModel.find().populate('authors');
         return books;
     } catch (error) {
         console.error(`error al obtener los libros: ${error.message}`)
@@ -24,7 +24,7 @@ export const getBooks = async () => {
 
 export const getBook = async (id) => {
     try {
-        const book = await BooksModel.findById(id)
+        const book = await BooksModel.findById(id).populate('authors');
         return book
     } catch (error) {
         console.error(`error al obtener el libro: ${error.message}`)

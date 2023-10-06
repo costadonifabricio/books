@@ -3,14 +3,14 @@ import { getBookCtrl, getBooksCtrl, createBookCtrl, updateBookCtrl, deleteBookCt
 
 const bookrouter = Router();
 
-bookrouter.get('/books', getBooksCtrl);
+bookrouter.get('/', getBooksCtrl);
 
-bookrouter.get('/books/:id', getBookCtrl);
+bookrouter.get('/:id', getBookCtrl);
 
-bookrouter.post('/books', createBookCtrl);
+bookrouter.post('/', createBookCtrl);
 
-bookrouter.put('/books/:id', updateBookCtrl);
+bookrouter.put('/:id', updateBookCtrl);
 
-bookrouter.delete('/books/:id', deleteBookCtrl);
+bookrouter.delete('/:id', deleteBookCtrl);
 
 export { bookrouter }

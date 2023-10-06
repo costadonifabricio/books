@@ -3,15 +3,15 @@ import { getAuthorCtrl, getAuthorsCtrl, createAuthorCtrl, updateAuthorCtrl, dele
 
 const authorouter = Router();
 
-authorouter.get('/authors', getAuthorsCtrl);
+authorouter.get('/', getAuthorsCtrl);
 
-authorouter.get('/authors/:id', getAuthorCtrl);
+authorouter.get('/:id', getAuthorCtrl);
 
-authorouter.post('/authors', createAuthorCtrl);
+authorouter.post('/', createAuthorCtrl);
 
-authorouter.put('/authors/:id', updateAuthorCtrl);
+authorouter.put('/:id', updateAuthorCtrl);
 
-authorouter.delete('/authors/:id', deleteAuthorCtrl);
+authorouter.delete('/:id', deleteAuthorCtrl);
 
 export { authorouter }
 

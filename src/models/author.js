@@ -16,7 +16,7 @@ export const UserModel = mongoose.model('Author', userSchema)
 
 export const getAuthors = async () => {
     try {
-        const authors = await UserModel.find()
+        const authors = await UserModel.find().populate('books');
         return authors
     } catch (error) {
         console.error(`error al obtener los autores: ${error.message}`)
@@ -25,7 +25,7 @@ export const getAuthors = async () => {
 
 export const getAuthor = async (id) => {
     try {
-        const author = await UserModel.findById(id)
+        const author = await UserModel.findById(id).populate('books');
         return author
     } catch (error) {
         console.error(`error al obtener el autor: ${error.message}`)
