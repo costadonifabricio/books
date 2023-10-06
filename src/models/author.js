@@ -16,7 +16,7 @@ export const UserModel = mongoose.model('Author', userSchema)
 
 export const getAuthors = async () => {
     try {
-        const authors = await UserModel.find().populate('books');
+        const authors = await UserModel.find().populate('books', 'title', 'gender');
         return authors
     } catch (error) {
         console.error(`error al obtener los autores: ${error.message}`)
@@ -25,7 +25,7 @@ export const getAuthors = async () => {
 
 export const getAuthor = async (id) => {
     try {
-        const author = await UserModel.findById(id).populate('books');
+        const author = await UserModel.findById(id).populate('books', 'title', 'gender');
         return author
     } catch (error) {
         console.error(`error al obtener el autor: ${error.message}`)
@@ -55,6 +55,17 @@ export const deleteAuthor = async (id) => {
     try {
         const deletedAuthor = await UserModel.findByIdAndDelete(id)
         return deletedAuthor
+    } catch (error) {
+        console.error(`error al eliminar el autor: ${error.message}`)
+    }
+}
+
+export const addBooktoAuthor = async (id, book) => {
+    try {
+        const author = await UserModel.findById(id)
+        author.books.push(book)
+        const updateAuthor = await author.save()
+        return updateAuthor
     } catch (error) {
         console.error(`error al eliminar el autor: ${error.message}`)
     }
