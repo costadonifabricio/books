@@ -10,13 +10,17 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
-export const UserModel = mongoose.model('Author', userSchema)
+export const AuthorModel = mongoose.model('Author', userSchema)
 
 // Servicios
 
 export const getAuthors = async () => {
     try {
-        const authors = await UserModel.find().populate('books', 'title', 'gender');
+        const authors = await AuthorModel.find().populate({
+            path: 'books',
+            select: 'title'
+        });
+        console.log(authors);
         return authors
     } catch (error) {
         console.error(`error al obtener los autores: ${error.message}`)
@@ -25,7 +29,11 @@ export const getAuthors = async () => {
 
 export const getAuthor = async (id) => {
     try {
-        const author = await UserModel.findById(id).populate('books', 'title', 'gender');
+        const author = await AuthorModel.findById(id).populate({
+            path: 'books',
+            select: 'title'
+        });
+        console.log(authors);
         return author
     } catch (error) {
         console.error(`error al obtener el autor: ${error.message}`)
@@ -34,7 +42,7 @@ export const getAuthor = async (id) => {
 
 export const createAuthor = async (author) => {
     try {
-        const newAuthor = new UserModel(author)
+        const newAuthor = new AuthorModel(author)
         await newAuthor.save()
         return newAuthor
     } catch (error) {
@@ -44,7 +52,7 @@ export const createAuthor = async (author) => {
 
 export const updateAuthor = async (id, author) => {
     try {
-        const updatedAuthor = await UserModel.findByIdAndUpdate(id, author)
+        const updatedAuthor = await AuthorModel.findByIdAndUpdate(id, author)
         return updatedAuthor
     } catch (error) {
         console.error(`error al actualizar el autor: ${error.message}`)
@@ -53,20 +61,20 @@ export const updateAuthor = async (id, author) => {
 
 export const deleteAuthor = async (id) => {
     try {
-        const deletedAuthor = await UserModel.findByIdAndDelete(id)
+        const deletedAuthor = await AuthorModel.findByIdAndDelete(id)
         return deletedAuthor
     } catch (error) {
         console.error(`error al eliminar el autor: ${error.message}`)
     }
 }
 
-export const addBooktoAuthor = async (id, book) => {
+export const AddBooktoAuthor = async (id, book) => {
     try {
-        const author = await UserModel.findById(id)
+        const author = await AuthorModel.findById(id)
         author.books.push(book)
-        const updateAuthor = await author.save()
-        return updateAuthor
+        const updatedAuthor = await author.save()
+        return updatedAuthor;
     } catch (error) {
-        console.error(`error al eliminar el autor: ${error.message}`)
+        console.error(`error al agregar el libro al autor: ${error.message}`)
     }
 }

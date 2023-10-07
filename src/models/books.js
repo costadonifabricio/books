@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import { AddBooktoAuthor } from "./author.js";
 
 const booksSchema = new mongoose.Schema({
     title: String,
     gender: String,
-    year_publication: Date,
+    year_publication: String,
     author: {
         type: mongoose.Types.ObjectId,
         ref: 'Author'
@@ -16,7 +17,11 @@ export const BooksModel = mongoose.model('Books', booksSchema)
 // Servicios
 export const getBooks = async () => {
     try {
-        const books = await BooksModel.find().populate('authors', 'name', 'surname');
+        const books = await BooksModel.find().populate({
+            path: 'author',
+            select: 'name'
+        });
+        console.log(books);
         return books;
     } catch (error) {
         console.error(`error al obtener los libros: ${error.message}`)
@@ -25,7 +30,11 @@ export const getBooks = async () => {
 
 export const getBook = async (id) => {
     try {
-        const book = await BooksModel.findById(id).populate('authors', 'name', 'surname');
+        const book = await BooksModel.findById(id).populate({
+            path: 'author',
+            select: 'name'
+        });
+        console.log(books);
         return book
     } catch (error) {
         console.error(`error al obtener el libro: ${error.message}`)
@@ -34,8 +43,10 @@ export const getBook = async (id) => {
 
 export const createBook = async (book) => {
     try {
-        const newBook = new BooksModel(book)
-        await newBook.save()
+        const { author } = book;
+        const newBook = new BooksModel(book);
+        AddBooktoAuthor(author, newBook);
+        await newBook.save();
         return newBook
     } catch (error) {
         console.error(`error al crear el libro: ${error.message}`)
