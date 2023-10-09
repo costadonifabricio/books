@@ -10,15 +10,8 @@ const app = express();
 const port = 5000;
 
 app.use(express.json());
-
-app.use(express.urlencoded({ extended: false }));
-app.use(fileUpload({
-    createParentPath: true,
-    limits: { fileSize: 20 * 1024 * 1024},
-    abortOnLimit: true,
-    responseOnLimit: "Archivo muy grande",
-})
-);
+app.use(fileUpload());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.use('/books', bookrouter);
