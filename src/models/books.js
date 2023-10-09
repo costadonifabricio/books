@@ -7,7 +7,8 @@ const booksSchema = new mongoose.Schema({
     author: {
         type: mongoose.Types.ObjectId,
         ref: 'Author'
-    }
+    },
+    cover_page: String
 })
 
 export const BooksModel = mongoose.model('Books', booksSchema)
